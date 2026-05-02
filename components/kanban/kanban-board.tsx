@@ -22,7 +22,7 @@ import { useGithubRepos } from '@/hooks/use-github-repos'
 
 export function KanbanBoard() {
   const { projects, filters, moveProject } = useProjectStore()
-  const { repos: githubRepos } = useGithubRepos()
+  const { repos: githubRepos, error: githubError } = useGithubRepos()
   const [activeProject, setActiveProject] = useState<Project | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -78,6 +78,13 @@ export function KanbanBoard() {
 
   return (
     <div className="flex flex-col gap-6 h-full">
+      {/* GitHub error banner */}
+      {githubError && (
+        <div className="mx-6 mt-4 px-4 py-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-xs text-red-400 flex items-center gap-2">
+          <span className="font-medium">GitHub:</span> {githubError}
+        </div>
+      )}
+
       {/* Toolbar */}
       <div className="flex items-center justify-between gap-4 flex-wrap px-6 pt-6">
         <FiltersBar />

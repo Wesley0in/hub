@@ -8,14 +8,25 @@ const POLL_INTERVAL = 60_000
 export function useGithubRepos() {
   const [repos, setRepos] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const intervalRef = useRef<ReturnType<typeof setInterval>>()
 
   const fetchRepos = async () => {
     try {
       const res = await fetch('/api/github/repos')
-      if (!res.ok) return
-      const { repos: data } = await res.json()
+      if (!res.ok) {
+        setError(`Erro HTTP ${res.status}`)
+        return
+      }
+      const { repos: data, error: apiError } = await res.json()
+      if (apiError) {
+        setError(apiError)
+        return
+      }
+      setError(null)
       setRepos(data ?? [])
+    } catch (e: any) {
+      setError(e.message ?? 'Erro ao buscar repositórios')
     } finally {
       setLoading(false)
     }
@@ -32,5 +43,5 @@ export function useGithubRepos() {
     }
   }, [])
 
-  return { repos, loading }
+  return { repos, loading, error }
 }
