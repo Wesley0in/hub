@@ -23,7 +23,10 @@ export async function GET() {
   const username = process.env.GITHUB_USERNAME
 
   if (!token || !username) {
-    return NextResponse.json({ repos: [] })
+    return NextResponse.json({
+      repos: [],
+      error: `Variáveis de ambiente não configuradas: ${!token ? 'GITHUB_TOKEN ' : ''}${!username ? 'GITHUB_USERNAME' : ''}`.trim(),
+    })
   }
 
   const res = await fetch(
