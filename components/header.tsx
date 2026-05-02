@@ -23,7 +23,7 @@ export function Header() {
           <div className="w-7 h-7 rounded-md bg-indigo-500 flex items-center justify-center text-xs font-bold text-white">
             PH
           </div>
-          <span className="text-sm tracking-wide">ProjectHub</span>
+          <span className="text-sm tracking-wide">Hub de projetos</span>
         </Link>
 
         {/* Nav */}
