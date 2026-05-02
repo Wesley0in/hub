@@ -18,9 +18,11 @@ import { KanbanColumn } from './kanban-column'
 import { ProjectCard } from './project-card'
 import { FiltersBar } from './filters-bar'
 import { NewProjectModal } from './new-project-modal'
+import { useGithubRepos } from '@/hooks/use-github-repos'
 
 export function KanbanBoard() {
   const { projects, filters, moveProject } = useProjectStore()
+  const { repos: githubRepos } = useGithubRepos()
   const [activeProject, setActiveProject] = useState<Project | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -28,15 +30,21 @@ export function KanbanBoard() {
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
   )
 
+  const allProjects = useMemo(() => {
+    const existingUrls = new Set(projects.map((p) => p.github_url).filter(Boolean))
+    const uniqueGithub = githubRepos.filter((r) => !existingUrls.has(r.github_url))
+    return [...projects, ...uniqueGithub]
+  }, [projects, githubRepos])
+
   const filteredProjects = useMemo(() => {
-    return projects.filter((p) => {
+    return allProjects.filter((p) => {
       if (filters.category && p.category !== filters.category) return false
       if (filters.type && p.type !== filters.type) return false
       if (filters.priority && p.priority !== filters.priority) return false
       if (filters.technology && !p.technologies.includes(filters.technology)) return false
       return true
     })
-  }, [projects, filters])
+  }, [allProjects, filters])
 
   const handleDragStart = (event: DragStartEvent) => {
     const project = event.active.data.current?.project as Project

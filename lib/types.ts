@@ -46,6 +46,7 @@ export interface Project {
   tasks?: Task[]
   notes?: Note[]
   activity_log?: ActivityLog[]
+  source?: 'github' | 'manual'
 }
 
 export interface GitHubRepo {

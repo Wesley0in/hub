@@ -82,9 +82,16 @@ export function ProjectCard({ project, overlay = false }: ProjectCardProps) {
       >
         {/* Top badges */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/8 text-white/50 border border-white/5">
-            {CATEGORY_LABELS[project.category]}
-          </span>
+          {project.source === 'github' ? (
+            <span className="flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-white/8 text-white/60 border border-white/10">
+              <Github size={9} />
+              GitHub
+            </span>
+          ) : (
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/8 text-white/50 border border-white/5">
+              {CATEGORY_LABELS[project.category]}
+            </span>
+          )}
           <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/8 text-white/50 border border-white/5">
             {TYPE_LABELS[project.type]}
           </span>
