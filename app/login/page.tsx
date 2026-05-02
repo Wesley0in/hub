@@ -33,7 +33,7 @@ export default function LoginPage() {
           <div className="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center text-sm font-bold text-white mb-3">
             PH
           </div>
-          <h1 className="text-lg font-semibold text-white">ProjectHub</h1>
+          <h1 className="text-lg font-semibold text-white">Hub de projetos</h1>
           <p className="text-sm text-white/40 mt-1">
             {mode === 'login' ? 'Entre na sua conta' : 'Crie sua conta'}
           </p>
